@@ -18,6 +18,16 @@
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="white-box">
+
+					<form action="user-table" method="GET" class="form-inline"
+						style="margin-bottom: 16px;">
+						<input type="text" name="keywords"
+							value="<c:out value='${param.keywords}' />" class="form-control"
+							placeholder="Tìm tên hoặc email">
+
+						<button type="submit" class="btn btn-primary">Tìm kiếm</button>
+
+					</form>
 					<div class="table-responsive">
 						<table class="table" id="example">
 							<thead>
@@ -37,10 +47,14 @@
 										<td>${user.fullname}</td>
 										<td>${user.phone }</td>
 										<td>${user.email}</td>
-										<td>${user.roleId}</td>
-										<td><a href="#" class="btn btn-sm btn-primary">Sửa</a> <a
-											href="#" class="btn btn-sm btn-danger">Xóa</a> <a
-											href="user-details.html" class="btn btn-sm btn-info">Xem</a>
+										<td>${user.roleName}</td>
+										<td><a href="#" class="btn btn-sm btn-primary">Sửa</a> 
+											<form style="display: inline;" action="user-delete" method="post" 
+											onsubmit="return confirm('Bạn chắc chắn muốn xóa thành viên này?')">
+												<input type="hidden" name="id" value="${user.id}">
+												<button type="submit" class="btn btn-sm btn-danger">Xóa</button> 
+											</form>
+										<a href="user-details.html" class="btn btn-sm btn-info">Xem</a>
 										</td>
 									</tr>
 								</c:forEach>
@@ -48,6 +62,29 @@
 
 							</tbody>
 						</table>
+						<!-- pagination -->
+						<div class="text-center">
+							<c:if test="${page > 1}">
+								<c:url var="previousUrl" value="/user-table">
+									<c:param name="page" value="${page -1}"></c:param>
+									<c:param name="keywords" value="${param.keywords}"></c:param>
+								</c:url>
+								<a class="btn btn-default" href="${previousUrl}"> Trước </a>
+							</c:if>
+							<c:forEach begin="1" end="${totalPage}" var="pageNumber">
+								<a href="user-table?page=${pageNumber}&keywords=${param.keywords}"
+									class="btn ${pageNumber == page ? 'btn-primary': 'btn-default'} ">
+									${pageNumber} </a>
+							</c:forEach>
+							<c:if test="${page < totalPage}">
+								<c:url var="nextUrl" value="/user-table">
+									<c:param name="page" value="${page + 1}"></c:param>
+									<c:param name="keywords" value="${param.keywords}"></c:param>
+								</c:url>
+								<a class="btn btn-default" href="${nextUrl}"> Sau </a>
+							</c:if>
+
+						</div>
 					</div>
 				</div>
 			</div>

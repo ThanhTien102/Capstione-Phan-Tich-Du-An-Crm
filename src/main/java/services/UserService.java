@@ -1,10 +1,12 @@
 package services;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.mindrot.jbcrypt.BCrypt;
 
 import dto.CreateUserDTO;
+import dto.UserListDTO;
 import models.User;
 import repositories.UserRepository;
 
@@ -17,8 +19,8 @@ public class UserService {
 	}
 	
 	//GETALL
-	public List<User> getAllUser(){
-		List<User> users = userRepository.getAllUser();
+	public List<UserListDTO> getAllUser(){
+		List<UserListDTO> users = userRepository.getAllUser();
 		return users;
 	}
 	
@@ -47,6 +49,35 @@ public class UserService {
 		// goij repo creater(User )
 		return userRepository.create(user) ? null : "Khong the tao user";
 	}
+	
+	// userPaging
+	public List<UserListDTO> getUserPaging(String keywords, int size, int index){
+		List<UserListDTO> users = userRepository.userPaging(keywords, size, index);
+		return users;
+	} 
+	// countUser
+	public int countUsers(String keyword) throws SQLException {
+	    return userRepository.countUser(keyword);
+	}
+	// delete
+	public String deleteById(int id) 
+			throws SQLException{
+		try {
+			boolean delete = userRepository.deleteById(id);
+			// null => thanfh cong
+			return delete ?
+					null : 
+				"Khong tim thay user";
+		} catch (SQLException e) {
+			// TOD: handle exception
+			return "User dang co task khong duoc xoa";
+		}
+	}
+	
+	
+	
+	
+	
 	
 	
 }
