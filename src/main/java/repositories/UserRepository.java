@@ -150,7 +150,7 @@ public class UserRepository {
 			}
 		}
 	}
-	// DeleteById
+	// userrepo  DeleteById
 	public boolean deleteById(int id) throws SQLException {
 		String sql = "DELETE FROM User WHERE id = ?";
 		try(Connection conn = DBConnection.getConnection()) {
@@ -165,6 +165,63 @@ public class UserRepository {
 		}
 		
 	}
+	// get user by id
+	public User getUserById (int id) throws SQLException {
+		String sql = "SELECT * FROM User Where id = ?";
+		try(Connection conn = DBConnection.getConnection()) {
+			if(conn == null) {// loi neu khong ket noi db duoc
+				throw new SQLException("Khong ket noi duoc co so du lieu");
+			}
+			try(PreparedStatement ps = conn.prepareStatement(sql)){
+				ps.setInt(1, id);
+				try(ResultSet rs = ps.executeQuery()){
+					//
+					if(rs.next()) {
+						return new User(
+								rs.getInt("id"), 
+								rs.getString("email"), 
+								rs.getString("password"),
+								rs.getString("fullname"), 
+								rs.getString("phone"), 
+								rs.getString("country"),
+								rs.getInt("role_id")
+								);
+					}
+					else {
+						return null;
+					}
+				}
+				
+				
+			}
+			
+		}
+	}
+	// update user
 	
+	
+	public boolean updateUser(User user) throws SQLException{
+		String sql = "update User set email=?, "
+				+ "fullname=?, phone=?, country=?, role_id=? "
+				+ "where id =?";
+		try(Connection conn = DBConnection.getConnection()) {
+			if(conn == null) {// loi neu khong ket noi db duoc
+				throw new SQLException("Khong ket noi duoc co so du lieu");
+			}
+			try(PreparedStatement ps = conn.prepareStatement(sql)){
+				ps.setString(1, user.getEmail());
+				ps.setString(2, user.getFullname());
+				ps.setString(3, user.getPhone());
+				ps.setString(4, user.getCountry());
+				ps.setInt(5, user.getRoleId());
+				ps.setInt(6, user.getId());
+				
+				return ps.executeUpdate() == 1; // co 1 dong thay doi trong db 
+			}
+			
+		}
+		
+		
+	}
 	
 }

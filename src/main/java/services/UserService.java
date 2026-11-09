@@ -73,8 +73,33 @@ public class UserService {
 			return "User dang co task khong duoc xoa";
 		}
 	}
+	// get user by id
+	public User findById(int id) throws SQLException {
+		return userRepository.getUserById(id);
+	}
 	
-	
+	// update
+	public String update(User user) throws SQLException {
+		// kiem tra rong
+		if(user.getFullname().trim().isEmpty() || user.getFullname()== null ||
+			user.getPhone().trim().isEmpty() || user.getPhone()== null ||
+			user.getEmail().trim().isEmpty() || user.getEmail()== null)
+		{
+			return "Email, ho ten hoac so dien thoai khong duoc de trong";
+		}
+		// kiem tra trung email
+		User checkEmail = userRepository.findByEmail(user.getEmail());
+		if(checkEmail != null) { // da ton tai email
+			return "Email da duoc su dung";
+		}
+		try {
+			boolean check = userRepository.updateUser(user);
+			return check ? null: "Loi update";
+		} catch (Exception e) {
+			// TODO: handle exception
+			return "Loi update";
+		}
+	}
 	
 	
 	

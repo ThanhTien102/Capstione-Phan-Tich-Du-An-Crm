@@ -25,11 +25,11 @@
 					<form action="login" method="post">
 						<div class="form-group">
 							<label>Email</label> <input type="email" class="form-control"
-								name="email">
+								name="email" value="admin@gmail.com">
 						</div>
 						<div class="form-group">
 							<label>Mật khẩu</label> <input type="password"
-								class="form-control" name="password">
+								class="form-control" name="password" value="123456">
 						</div>
 						<button type="submit" class="btn btn-primary">Đăng nhập</button>
 					</form>

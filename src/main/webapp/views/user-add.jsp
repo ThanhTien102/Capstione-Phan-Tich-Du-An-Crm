@@ -7,7 +7,12 @@
 	<div class="container-fluid">
 		<div class="row bg-title">
 			<div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-				<h4 class="page-title">Thêm mới thành viên</h4>
+				<h4 class="page-title">
+					<c:choose>
+						<c:when test="${isEdit}">Sua thanh vien</c:when>
+						<c:otherwise>Them moi thanh vien</c:otherwise>
+					</c:choose>
+				</h4>
 			</div>
 		</div>
 		<!-- /.row -->
@@ -22,14 +27,25 @@
 					<c:if test="${not empty error}">
 						<div class="alert alert-danger">${error}</div>
 					</c:if>
-					<form class="form-horizontal form-material" action="user-add"
+					<c:choose>
+						<c:when test="${isEdit}">
+							<c:url var="actionForm" value="user-edit"></c:url>
+						</c:when>
+						<c:otherwise>
+							<c:url var="actionForm" value="user-add"></c:url>
+						</c:otherwise>
+					</c:choose>
+					<form class="form-horizontal form-material" action="${actionForm}"
 						method="post">
+						<c:if test="${isEdit}">
+							<input name="id" type="hidden" value="${userEdit.id }">
+						</c:if>
 						<div class="form-group">
 							<label class="col-md-12">Full Name</label>
 							<div class="col-md-12">
 								<input type="text" placeholder="Johnathan Doe" name="fullname"
 									class="form-control form-control-line"
-									value="${param.fullname}">
+									value="${isEdit ? userEdit.fullname : param.fullname}">
 							</div>
 						</div>
 						<div class="form-group">
@@ -37,21 +53,24 @@
 							<div class="col-md-12">
 								<input type="email" placeholder="johnathan@admin.com"
 									class="form-control form-control-line" name="email"
-									value="${param.email}" id="example-email">
+									value="${isEdit ? userEdit.email : param.email}" id="example-email">
 							</div>
 						</div>
-						<div class="form-group">
-							<label class="col-md-12">Password</label>
-							<div class="col-md-12">
-								<input type="password" name="password"
-									class="form-control form-control-line">
+						<c:if test="${not isEdit}">
+							<div class="form-group">
+								<label class="col-md-12">Password</label>
+								<div class="col-md-12">
+									<input type="password" name="password"
+										class="form-control form-control-line">
+								</div>
 							</div>
-						</div>
+						</c:if>
+
 						<div class="form-group">
 							<label class="col-md-12">Phone No</label>
 							<div class="col-md-12">
 								<input type="text" placeholder="123 456 7890" name="phone"
-									value="${param.phone}" class="form-control form-control-line">
+									value="${isEdit ? userEdit.phone : param.phone}" class="form-control form-control-line">
 							</div>
 						</div>
 						<div class="form-group">
@@ -60,18 +79,19 @@
 								<select class="form-control form-control-line" name="country">
 
 									<option
-										<c:if test="${param.country == 'London'}"> selected</c:if>
+										<c:if test="${(isEdit ? userEdit.country : param.country) == 'London'}"> selected</c:if>
 										value="London">London</option>
 									<option
-										<c:if test="${param.country == 'India'}"> selected</c:if>
+										<c:if test="${(isEdit ? userEdit.country : param.country) == 'India'}"> selected</c:if>
 										value="India">India</option>
-									<option <c:if test="${param.country == 'Usa'}"> selected</c:if>
+									<option 
+										<c:if test="${(isEdit ? userEdit.country : param.country) == 'Usa'}"> selected</c:if>
 										value="Usa">Usa</option>
 									<option
-										<c:if test="${param.country == 'Canada'}"> selected</c:if>
+										<c:if test="${(isEdit ? userEdit.country : param.country) == 'Canada'}"> selected</c:if>
 										value="Canada">Canada</option>
 									<option
-										<c:if test="${param.country == 'Thailand'}"> selected</c:if>
+										<c:if test="${(isEdit ? userEdit.country : param.country) == 'Thailand'}"> selected</c:if>
 										value="Thailand">Thailand</option>
 								</select>
 							</div>
@@ -82,18 +102,22 @@
 								<select name="roleId">
 									<c:forEach items="${roles}" var="role">
 										<option
-											<c:if test="${param.roleId == role.id}"> 
+											<c:if test="${(isEdit ? userEdit.roleId : param.roleId) == role.id}"> 
 												selected
 											</c:if>
-											value="${role.id}">${role.nameRole}
-										</option>
+											value="${role.id}">${role.nameRole}</option>
 									</c:forEach>
 								</select>
 							</div>
 						</div>
 						<div class="form-group">
 							<div class="col-sm-12">
-								<button type="submit" class="btn btn-success">Add User</button>
+								<button type="submit" class="btn btn-success">
+									<c:choose>
+										<c:when test="${isEdit}">Cap nhat</c:when>
+										<c:otherwise>Them moi</c:otherwise>
+									</c:choose>
+								</button>
 								<a href="user-table.html" class="btn btn-primary">Quay lại</a>
 							</div>
 						</div>

@@ -14,6 +14,13 @@
 			</div>
 			<!-- /.col-lg-12 -->
 		</div>
+		  <!-- KET QUA CUA THAO TAC DELETE -->
+		  <c:if test="${param.delete =='1'}">
+		  	<div class="alert alert-success">Xoa thanh vien thanh cong!</div>
+		  </c:if> 
+		  <c:if test="${param.err =='1'}">
+		  	<div class="alert alert-danger">Xoa thanh vien that bai!</div>
+		  </c:if>
 		<!-- /row -->
 		<div class="row">
 			<div class="col-sm-12">
@@ -48,7 +55,7 @@
 										<td>${user.phone }</td>
 										<td>${user.email}</td>
 										<td>${user.roleName}</td>
-										<td><a href="#" class="btn btn-sm btn-primary">Sửa</a> 
+										<td><a href="user-edit?id=${user.id}" class="btn btn-sm btn-primary">Sửa</a> 
 											<form style="display: inline;" action="user-delete" method="post" 
 											onsubmit="return confirm('Bạn chắc chắn muốn xóa thành viên này?')">
 												<input type="hidden" name="id" value="${user.id}">

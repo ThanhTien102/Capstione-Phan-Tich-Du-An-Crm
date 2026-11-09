@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 public class DBConnection {
-	private final static String url = "jdbc:mysql://localhost:3307/CRM_DB";
+	private final static String url = "jdbc:mysql://localhost:3307/CRM_DB"
+			+ "?useUnicode=true"
+			+ "$characterEncoding=UTF-8";
 	private final static String username = "root";
 	private final static String password = "Root@123456";
 	

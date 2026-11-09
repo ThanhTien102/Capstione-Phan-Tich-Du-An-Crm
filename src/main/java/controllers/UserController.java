@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import dao.RoleDAO;
 import dto.CreateUserDTO;
+import models.User;
 import services.UserService;
 
 
@@ -20,6 +21,7 @@ import services.UserService;
 @WebServlet(name = "userController", urlPatterns = { 
 		"/user-table",
 		"/user-add",
+		"/user-edit",
 		"/user-delete"})
 public class UserController extends HttpServlet {
 	private final UserService userService;
@@ -73,6 +75,32 @@ public class UserController extends HttpServlet {
 			req.getRequestDispatcher("/views/user-add.jsp").forward(req, resp);
 			break;
 		}
+		case "/user-edit": {
+			// laasy ra id dang edit
+			int id;
+			try {
+				id = Integer.parseInt(req.getParameter("id"));
+			} catch (Exception e) {
+				// TODO: handle exception
+				return;
+			}
+			// lay thong tin use tu DB
+			try {
+				User user = userService.findById(id);
+				req.setAttribute("userEdit", user);
+			}
+			catch (Exception e) {
+				// TODO: handle exception
+				return;
+			}
+			
+			// set gia tri cho jsp
+			
+			req.setAttribute("roles", new RoleDAO().getAll());
+			req.setAttribute("isEdit", true);
+			req.getRequestDispatcher("/views/user-add.jsp").forward(req, resp);
+			break;
+		}
 		default:
 			throw new IllegalArgumentException("Unexpected value: " + path);
 		}
@@ -111,11 +139,11 @@ public class UserController extends HttpServlet {
 			req.getRequestDispatcher("/views/user-add.jsp").forward(req, resp);
 			return;
 		}
+		
 		case "/user-delete":{
 			int id;
 			try {
 				id = Integer.parseInt(req.getParameter("id"));
-
 			}catch (NumberFormatException e) {
 				// TODO: handle exception
 				resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
@@ -136,6 +164,49 @@ public class UserController extends HttpServlet {
 			}
 			return;
 		}
+		case "/user-edit": {
+			req.setCharacterEncoding("UTF-8");
+			int roleId;
+			int id;
+			try {
+				roleId= Integer.parseInt(req.getParameter("roleId"));
+				id= Integer.parseInt(req.getParameter("id"));
+			} catch (Exception e) {
+				// TODO: handle exception
+				req.setAttribute("error", "RoleId hoac Id sai dinh dang");
+				return;
+			}
+			// edit casi gif
+			User user = new User();
+			user.setFullname(req.getParameter("fullname"));
+			user.setEmail(req.getParameter("email"));
+			user.setPhone(req.getParameter("phone"));
+			user.setCountry(req.getParameter("country"));
+			user.setRoleId(roleId);
+			user.setId(id);
+			
+			try {
+				String err = userService.update(user);
+				if(err == null){// thanh cong
+					resp.sendRedirect(req.getContextPath()+ "/user-table");
+					return;
+				}
+				req.setAttribute("error", err);
+				req.setAttribute("roles", new RoleDAO().getAll());
+				req.setAttribute("isEdit", true); //
+				req.setAttribute("userEdit", user); //
+				
+
+				req.getRequestDispatcher("/views/user-add.jsp").forward(req, resp);
+
+			} catch (Exception e) {
+				// TODO: handle exception
+				return;
+			}
+			
+			break;
+		}
+
 		default:
 			throw new IllegalArgumentException("Unexpected value: " + path);
 		}
