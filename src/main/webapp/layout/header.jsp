@@ -7,7 +7,7 @@
 			data-target=".navbar-collapse"> <i class="fa fa-bars"></i>
 		</a>
 		<div class="top-left-part">
-			<a class="logo" href="index.html"> <b> <img
+			<a class="logo" href="${pageContext.request.contextPath}/"> <b> <img
 					src="${pageContext.request.contextPath}/assets/plugins/images/pixeladmin-logo.png"
 					alt="home" />
 			</b> <span class="hidden-xs"> <img
@@ -32,13 +32,13 @@
 						href="#"> <img
 						src="${pageContext.request.contextPath}/assets/plugins/images/users/varun.jpg"
 						alt="user-img" width="36" class="img-circle" /> <b
-						class="hidden-xs">Cybersoft</b>
+						class="hidden-xs">${not empty sessionScope.currentUser.fullname ? sessionScope.currentUser.fullname : 'Cybersoft'}</b>
 					</a>
 					<ul class="dropdown-menu">
-						<li><a href="profile.html">Thông tin cá nhân</a></li>
-						<li><a href="#">Thống kê công việc</a></li>
+						<li><a href="${pageContext.request.contextPath}/profile">Thông tin cá nhân</a></li>
+						<li><a href="${pageContext.request.contextPath}/profile">Thống kê công việc</a></li>
 						<li class="divider"></li>
-						<li><a href="logout">Đăng xuất</a></li>
+						<li><a href="${pageContext.request.contextPath}/logout">Đăng xuất</a></li>
 					</ul>
 				</div>
 			</li>

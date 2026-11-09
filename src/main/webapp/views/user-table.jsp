@@ -61,7 +61,7 @@
 												<input type="hidden" name="id" value="${user.id}">
 												<button type="submit" class="btn btn-sm btn-danger">Xóa</button> 
 											</form>
-										<a href="user-details.html" class="btn btn-sm btn-info">Xem</a>
+										<a href="user-details?id=${user.id}" class="btn btn-sm btn-info">Xem</a>
 										</td>
 									</tr>
 								</c:forEach>

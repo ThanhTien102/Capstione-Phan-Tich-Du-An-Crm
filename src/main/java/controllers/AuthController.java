@@ -57,13 +57,8 @@ public class AuthController extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String path = req.getServletPath();
-		// neu như có session thì trả ra session hiện tại
-		// không có thì trả null
-		// ton tai nguyen cua server
-		// Noi Giu session
-		// 
-		// cookie/ 
-		HttpSession session = req.getSession(false);
+		// Tao moi session neu chua co
+		HttpSession session = req.getSession(true);
 
 		switch (path) {
 		case "/login": {

@@ -13,8 +13,8 @@ import dao.RoleDAO;
 import dto.CreateUserDTO;
 import models.User;
 import services.UserService;
-
-
+import services.TaskService;
+import dto.UserTaskDetailDTO;
 
 // xoá user bằng id .
 // repository -> servce -> srvlet- 
@@ -22,7 +22,8 @@ import services.UserService;
 		"/user-table",
 		"/user-add",
 		"/user-edit",
-		"/user-delete"})
+		"/user-delete",
+		"/user-details"})
 public class UserController extends HttpServlet {
 	private final UserService userService;
 
@@ -99,6 +100,24 @@ public class UserController extends HttpServlet {
 			req.setAttribute("roles", new RoleDAO().getAll());
 			req.setAttribute("isEdit", true);
 			req.getRequestDispatcher("/views/user-add.jsp").forward(req, resp);
+			break;
+		}
+		case "/user-details": {
+			int id;
+			try {
+				id = Integer.parseInt(req.getParameter("id"));
+			} catch (Exception e) {
+				resp.sendRedirect(req.getContextPath() + "/user-table");
+				return;
+			}
+			TaskService taskService = new TaskService();
+			UserTaskDetailDTO detail = taskService.getUserTaskDetail(id);
+			if (detail == null) {
+				resp.sendRedirect(req.getContextPath() + "/user-table");
+				return;
+			}
+			req.setAttribute("detail", detail);
+			req.getRequestDispatcher("/views/user-details.jsp").forward(req, resp);
 			break;
 		}
 		default:

@@ -118,7 +118,7 @@
 										<c:otherwise>Them moi</c:otherwise>
 									</c:choose>
 								</button>
-								<a href="user-table.html" class="btn btn-primary">Quay lại</a>
+								<a href="user-table" class="btn btn-primary">Quay lại</a>
 							</div>
 						</div>
 					</form>

@@ -89,7 +89,7 @@ public class UserService {
 		}
 		// kiem tra trung email
 		User checkEmail = userRepository.findByEmail(user.getEmail());
-		if(checkEmail != null) { // da ton tai email
+		if(checkEmail != null && checkEmail.getId() != user.getId()) { // da ton tai email boi user khac
 			return "Email da duoc su dung";
 		}
 		try {

@@ -38,6 +38,29 @@ public class UserRepository {
 	// =====================
 	// GET ALL
 	// =====================
+	public List<User> getAll() {
+		List<User> users = new ArrayList<>();
+		String query = "SELECT * FROM User ORDER BY fullname ASC";
+		try (Connection conn = DBConnection.getConnection();
+				PreparedStatement pre = conn.prepareStatement(query);
+				ResultSet rs = pre.executeQuery()) {
+			while (rs.next()) {
+				users.add(new User(
+						rs.getInt("id"),
+						rs.getString("email"),
+						rs.getString("password"),
+						rs.getString("fullname"),
+						rs.getString("phone"),
+						rs.getString("country"),
+						rs.getInt("role_id")
+				));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return users;
+	}
+
 	public List<UserListDTO> getAllUser() {
 		List<UserListDTO> users = new ArrayList<UserListDTO>();
 

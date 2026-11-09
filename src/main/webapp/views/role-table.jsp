@@ -10,10 +10,20 @@
 				<h4 class="page-title">Danh sách quyền</h4>
 			</div>
 			<div class="col-lg-9 col-sm-8 col-md-8 col-xs-12 text-right">
-				<a href="role-add.html" class="btn btn-sm btn-success">Thêm mới</a>
+				<a href="role-add" class="btn btn-sm btn-success">Thêm mới</a>
 			</div>
 			<!-- /.col-lg-12 -->
 		</div>
+		<!-- KẾT QUẢ CỦA THAO TÁC -->
+		<c:if test="${param.delete == '1'}">
+			<div class="alert alert-success">Xóa quyền thành công!</div>
+		</c:if>
+		<c:if test="${param.updated == '1'}">
+			<div class="alert alert-success">Cập nhật quyền thành công!</div>
+		</c:if>
+		<c:if test="${param.err == '1'}">
+			<div class="alert alert-danger">Xóa quyền thất bại (quyền đang được sử dụng)!</div>
+		</c:if>
 		<!-- /row -->
 		<div class="row">
 			<div class="col-sm-12">
@@ -29,16 +39,21 @@
 								</tr>
 							</thead>
 							<tbody>
-							<c:forEach items="${list}" var="role">
-								<tr>
-									<td>${role.id}</td>
-									<td>${role.nameRole}</td>
-									<td>${role.description}</td>
-									<td><a href="#" class="btn btn-sm btn-primary">Sửa</a> <a
-										href="#" class="btn btn-sm btn-danger">Xóa</a></td>
-								</tr>
-							</c:forEach>
-
+								<c:forEach items="${list}" var="role">
+									<tr>
+										<td>${role.id}</td>
+										<td>${role.nameRole}</td>
+										<td>${role.description}</td>
+										<td>
+											<a href="role-edit?id=${role.id}" class="btn btn-sm btn-primary">Sửa</a>
+											<form style="display: inline;" action="role-delete" method="post"
+												onsubmit="return confirm('Bạn chắc chắn muốn xóa quyền này?')">
+												<input type="hidden" name="id" value="${role.id}">
+												<button type="submit" class="btn btn-sm btn-danger">Xóa</button>
+											</form>
+										</td>
+									</tr>
+								</c:forEach>
 							</tbody>
 						</table>
 					</div>
@@ -48,6 +63,5 @@
 		<!-- /.row -->
 	</div>
 	<!-- /.container-fluid -->
-	<footer class="footer text-center"> 2018 &copy; myclass.com </footer>
 </div>
 <!-- /#page-wrapper -->
