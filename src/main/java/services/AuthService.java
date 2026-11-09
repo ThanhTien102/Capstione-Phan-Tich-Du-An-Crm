@@ -30,6 +30,7 @@ public class AuthService {
 //		if(!user.getPassword().equals(password)) {
 //			return null;
 //		}
+		// TRÁNH LƯU TRỨC TIẾP PASS CỦA USER VÀO DB 
 		boolean checkValid = BCrypt.checkpw(password,user.getPassword());
 		if(!checkValid) {
 			return null;
