@@ -36,5 +36,4 @@ Dự án Capstone Quản lý Công việc CRM được xây dựng trên nền t
 3. Triển khai (Deploy) dự án lên Apache Tomcat 9.
 4. Truy cập hệ thống tại: `http://localhost:8080/java14crmproject/`.
 
----
-**Tác giả**: Ngô Thanh Tiến (@ThanhTien102)
+
