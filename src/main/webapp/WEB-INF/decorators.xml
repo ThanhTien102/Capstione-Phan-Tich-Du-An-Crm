@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <decorators defaultdir="/decorators">
+	<!-- loai tru /login - khong nhan layout.jsp  -->
+	<excludes>
+		<pattern>/login</pattern>
+		
+	</excludes>
 	<decorator name="default" page="layout.jsp">
 		<pattern>/*</pattern>
 	</decorator>
